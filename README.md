@@ -74,6 +74,7 @@ Copy `.env.example` to `.env`.
 | --- | --- | --- |
 | `DICTIONARY_PROVIDER` | `free` | `free` or `commercial` |
 | `DICTIONARY_CACHE_TTL` | `86400000` | Dictionary cache lifetime in ms |
+| `DICTIONARY_PROXY_URL` | Cloudflare proxy URL | Optional proxy base URL override for hosts whose outbound IP is blocked by the upstream API |
 | `COMMERCIAL_DICTIONARY_LABEL` | `Commercial Dictionary` | Display name in Settings |
 | `COMMERCIAL_DICTIONARY_BASE_URL` | empty | Your commercial API endpoint |
 | `COMMERCIAL_DICTIONARY_API_KEY` | empty | Your commercial API key |
