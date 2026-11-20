@@ -1,0 +1,25 @@
+services:
+  - type: web
+    name: lexicon-dictionary-api
+    runtime: node
+    plan: free
+    region: oregon
+    branch: main
+    rootDir: /
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
+      - key: PORT
+        value: "4000"
+      - key: CLIENT_ORIGIN
+        value: "https://ecosystem-dictionary.pages.dev"
+      - key: DICTIONARY_PROVIDER
+        value: free
+      - key: AI_PROVIDER
+        sync: false
+      - key: AI_MODEL
+        sync: false
+      - key: AI_API_KEY
+        sync: false

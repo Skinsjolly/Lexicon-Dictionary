@@ -1,0 +1,25 @@
+{
+  "name": "lexicon-dictionary",
+  "private": true,
+  "version": "1.0.0",
+  "description": "A modern standalone dictionary web app with organized definitions and AI-generated example sentences.",
+  "workspaces": [
+    "apps/api",
+    "apps/web"
+  ],
+  "scripts": {
+    "dev": "concurrently -n api,web -c cyan,magenta \"npm run dev --workspace @lexicon/api\" \"npm run dev --workspace @lexicon/web\"",
+    "dev:api": "npm run dev --workspace @lexicon/api",
+    "dev:web": "npm run dev --workspace @lexicon/web",
+    "build": "npm run build --workspace @lexicon/web",
+    "typecheck": "npm run typecheck --workspace @lexicon/web",
+    "test": "node --test apps/api/src/**/*.test.js",
+    "start": "npm run start --workspace @lexicon/api"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

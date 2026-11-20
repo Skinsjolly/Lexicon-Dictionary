@@ -1,0 +1,82 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: light;
+  }
+
+  html.dark {
+    color-scheme: dark;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-canvas text-ink-900 antialiased transition-colors duration-300;
+    background-image:
+      radial-gradient(circle at 12% -10%, rgba(99, 102, 241, 0.08), transparent 42%),
+      radial-gradient(circle at 92% 0%, rgba(16, 185, 129, 0.06), transparent 38%);
+    background-attachment: fixed;
+  }
+
+  html.dark body {
+    @apply bg-[#0d0f14] text-slate-100;
+    background-image:
+      radial-gradient(circle at 10% -10%, rgba(99, 102, 241, 0.16), transparent 40%),
+      radial-gradient(circle at 95% 0%, rgba(16, 185, 129, 0.08), transparent 36%);
+  }
+
+  ::selection {
+    @apply bg-brand-200 text-brand-900;
+  }
+}
+
+@layer components {
+  .card {
+    @apply rounded-2.5xl border border-slate-200/80 bg-white/85 shadow-soft backdrop-blur-sm transition-colors dark:border-white/10 dark:bg-white/[0.045];
+  }
+
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-400 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-[#0d0f14];
+  }
+
+  .btn-primary {
+    @apply btn bg-brand-600 text-white shadow-lg shadow-brand-600/20 hover:-translate-y-0.5 hover:bg-brand-700 hover:shadow-xl hover:shadow-brand-600/25 active:translate-y-0;
+  }
+
+  .btn-ghost {
+    @apply btn border border-slate-200 bg-white/70 text-slate-700 hover:border-brand-200 hover:bg-brand-50 hover:text-brand-700 dark:border-white/10 dark:bg-white/5 dark:text-slate-200 dark:hover:border-brand-400/30 dark:hover:bg-brand-500/10 dark:hover:text-brand-200;
+  }
+
+  .chip {
+    @apply inline-flex items-center gap-1.5 rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-xs font-medium text-slate-600 transition hover:border-brand-300 hover:bg-brand-50 hover:text-brand-700 dark:border-white/10 dark:bg-white/5 dark:text-slate-300 dark:hover:border-brand-400/30 dark:hover:bg-brand-500/10 dark:hover:text-brand-200;
+  }
+
+  .input {
+    @apply w-full rounded-2xl border border-slate-200 bg-white px-5 py-4 text-base text-slate-900 shadow-sm outline-none transition placeholder:text-slate-400 focus:border-brand-400 focus:ring-4 focus:ring-brand-100 dark:border-white/10 dark:bg-white/5 dark:text-white dark:placeholder:text-slate-500 dark:focus:border-brand-400/50 dark:focus:ring-brand-500/15;
+  }
+
+  .label {
+    @apply text-[11px] font-bold uppercase tracking-[0.18em] text-slate-400 dark:text-slate-500;
+  }
+
+  .ai-panel {
+    @apply relative overflow-hidden rounded-2.5xl border border-brand-200/80 bg-gradient-to-br from-brand-50 via-white to-mint-50 p-6 shadow-lift dark:border-brand-400/20 dark:from-brand-500/10 dark:via-white/[0.03] dark:to-mint-500/10;
+  }
+
+  .skeleton {
+    @apply animate-pulse rounded-lg bg-slate-200/80 dark:bg-white/10;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
