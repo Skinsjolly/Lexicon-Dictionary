@@ -14,14 +14,18 @@ export const ecosystemProvider = {
 
   async generate({ word, meanings }) {
     const base = (config.aiBaseUrl || DEFAULT_BASE_URL).replace(/\/$/, '');
-    const payload = await fetchJson(`${base}/api/search/dictionary-sentence`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-lexicon-token': config.aiApiKey,
+    const payload = await fetchJson(
+      `${base}/api/search/dictionary-sentence`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-lexicon-token': config.aiApiKey,
+        },
+        body: JSON.stringify({ word, meanings }),
       },
-      body: JSON.stringify({ word, meanings }),
-    });
+      30000
+    );
     return normalizeSentences(payload);
   },
 };

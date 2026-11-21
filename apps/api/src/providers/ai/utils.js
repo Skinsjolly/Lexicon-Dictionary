@@ -23,8 +23,8 @@ export function normalizeSentences(parsed) {
     .filter(Boolean);
 }
 
-export async function fetchJson(url, options) {
-  const response = await fetch(url, { ...options, signal: AbortSignal.timeout(20000) });
+export async function fetchJson(url, options, timeoutMs = 20000) {
+  const response = await fetch(url, { ...options, signal: AbortSignal.timeout(timeoutMs) });
   const text = await response.text();
   if (!response.ok) {
     let detail = text.slice(0, 300);
