@@ -27,7 +27,7 @@ Lexicon-Dictionary/
 │   │       ├── providers/
 │   │       │   ├── dictionary/  # FreeDictionaryProvider, CommercialDictionaryProvider
 │   │       │   └── ai/          # OpenAI, Anthropic, Gemini adapters
-│   │       ├── routes/          # /api/dictionary, /api/ai, /api/config, ...
+│   │       ├── routes/          # /api/dictionary, /api/ai, ...
 │   │       ├── services/        # AI sentence generation + caching
 │   │       └── utils/           # Normalization, suggestions, word of the day
 │   └── web/                 # React + TypeScript + Vite + Tailwind frontend
@@ -75,7 +75,7 @@ Copy `.env.example` to `.env`.
 | `DICTIONARY_PROVIDER` | `free` | `free` or `commercial` |
 | `DICTIONARY_CACHE_TTL` | `86400000` | Dictionary cache lifetime in ms |
 | `DICTIONARY_PROXY_URL` | Cloudflare proxy URL | Optional proxy base URL override for hosts whose outbound IP is blocked by the upstream API |
-| `COMMERCIAL_DICTIONARY_LABEL` | `Commercial Dictionary` | Display name in Settings |
+| `COMMERCIAL_DICTIONARY_LABEL` | `Commercial Dictionary` | Server-side provider label |
 | `COMMERCIAL_DICTIONARY_BASE_URL` | empty | Your commercial API endpoint |
 | `COMMERCIAL_DICTIONARY_API_KEY` | empty | Your commercial API key |
 
@@ -136,6 +136,8 @@ AI_API_KEY=<same value as LEXICON_AI_TOKEN on the ecosystem backend>
 
 The prompt asks for one original sentence per meaning, forbids copying traditional examples, and requests strict JSON. Responses are validated, deduplicated, and cached so repeated searches do not spend credits again.
 
+Provider names, models, configuration reasons, and raw upstream errors are kept server-side; they are not exposed in the public UI or API responses.
+
 ## Deployment
 
 ### Backend on Render
@@ -166,8 +168,6 @@ The frontend is a static Vite build in `apps/web/dist`. The backend is a standar
 | Route | Purpose |
 | --- | --- |
 | `GET /api/health` | Basic health |
-| `GET /api/health/providers` | Verified dictionary status + AI config status |
-| `GET /api/config` | Safe public configuration (no secrets) |
 | `GET /api/dictionary/:word` | Normalized dictionary entry |
 | `GET /api/suggestions?q=` | Prefix suggestions |
 | `GET /api/word-of-the-day` | Daily curated word with full entry |

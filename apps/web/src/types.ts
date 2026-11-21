@@ -48,22 +48,6 @@ export interface AIResult {
   cached?: boolean;
   message?: string | null;
   sentences: AISentence[];
-  provider?: string | null;
-  providerLabel?: string | null;
-  model?: string | null;
-}
-
-export interface AppConfig {
-  version: string;
-  dictionary: { provider: string; label: string; configured: boolean };
-  ai: {
-    provider: string | null;
-    label: string | null;
-    model: string | null;
-    configured: boolean;
-    reason: string | null;
-  };
-  features: { audio: boolean; suggestions: boolean; aiSentences: boolean };
 }
 
 export interface WordOfDay {

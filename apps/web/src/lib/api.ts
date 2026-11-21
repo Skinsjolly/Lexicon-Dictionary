@@ -1,4 +1,4 @@
-import type { AIResult, AppConfig, DictionaryEntry, WordOfDay } from '../types';
+import type { AIResult, DictionaryEntry, WordOfDay } from '../types';
 
 const API_BASE = (import.meta.env.VITE_API_URL || '').replace(/\/$/, '');
 
@@ -34,9 +34,6 @@ async function request<T>(path: string, options?: RequestInit): Promise<T> {
 
 export const api = {
   health: () => request<{ ok: boolean; service: string; version: string }>('/api/health'),
-  config: () => request<AppConfig>('/api/config'),
-  providerStatus: () =>
-    request<{ dictionary: string; ai: string; aiReason: string | null; checkedAt: string }>('/api/health/providers'),
   suggestions: (query: string) =>
     request<{ suggestions: string[] }>(`/api/suggestions?q=${encodeURIComponent(query)}`),
   dictionary: (word: string) => request<DictionaryEntry>(`/api/dictionary/${encodeURIComponent(word)}`),
