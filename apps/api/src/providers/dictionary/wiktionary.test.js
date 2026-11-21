@@ -22,7 +22,7 @@ test('normalizes a Wiktionary fallback entry', async () => {
         '== English ==',
         '=== Pronunciation ===',
         'IPA(key): /ɪnˌʃɪtɪfɪˈkeɪʃən/',
-        'Hyphenation: en·shit·i·fi·ca·tion',
+        'Hyphenation: en‧shit‧i‧fi‧ca‧tion',
         '=== Noun ===',
         'The phenomenon of online platforms.',
         'Synonyms: crapification, enshittening',

@@ -41,7 +41,7 @@ function stripHtml(value = '') {
     String(value ?? '')
       .replace(/<(style|script)[\s\S]*?<\/\1>/gi, ' ')
       .replace(/<[^>]*>/g, ' ')
-  );
+  ).replace(/\s+([,.;:!?])/g, '$1');
 }
 
 function section(extract = '', heading = '') {
@@ -70,7 +70,7 @@ function parsePronunciation(extract) {
   const hyphenation = extract.match(/Hyphenation:\s*([^\n]+)/i)?.[1] || '';
   const syllables = hyphenation
     ? cleanText(hyphenation)
-        .split(/[·•]/)
+        .split(/[·•‧-]/)
         .map(cleanText)
         .filter(Boolean)
     : [];
