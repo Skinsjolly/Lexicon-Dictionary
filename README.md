@@ -83,9 +83,9 @@ Copy `.env.example` to `.env`.
 
 | Variable | Default | Purpose |
 | --- | --- | --- |
-| `AI_PROVIDER` | empty | `openai`, `anthropic`, or `gemini` |
+| `AI_PROVIDER` | empty | `openai`, `anthropic`, `gemini`, or `ecosystem` |
 | `AI_MODEL` | empty | Model name, e.g. `gpt-4.1-mini` |
-| `AI_API_KEY` | empty | Server-side API key |
+| `AI_API_KEY` | empty | Provider key, or the shared token when using `ecosystem` |
 | `AI_BASE_URL` | empty | Optional compatible endpoint override |
 | `AI_CACHE_TTL` | `604800000` | AI sentence cache lifetime in ms |
 
@@ -124,6 +124,15 @@ Supported values:
 - `openai` — Chat Completions API
 - `anthropic` — Messages API
 - `gemini` — Google Generative Language API
+- `ecosystem` — calls the Ecosystem backend's Gemini-powered sentence endpoint, so the Gemini key stays in the ecosystem service. Set `AI_API_KEY` to the same shared `LEXICON_AI_TOKEN` configured there.
+
+To reuse the ecosystem's Gemini API:
+
+```bash
+AI_PROVIDER=ecosystem
+AI_MODEL=gemini-3.1-flash-lite
+AI_API_KEY=<same value as LEXICON_AI_TOKEN on the ecosystem backend>
+```
 
 The prompt asks for one original sentence per meaning, forbids copying traditional examples, and requests strict JSON. Responses are validated, deduplicated, and cached so repeated searches do not spend credits again.
 
