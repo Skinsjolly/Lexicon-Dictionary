@@ -130,7 +130,7 @@ To reuse the ecosystem's Gemini API:
 
 ```bash
 AI_PROVIDER=ecosystem
-AI_MODEL=gemini-3.1-flash-lite
+AI_MODEL=gemini-3.5-flash-lite
 AI_API_KEY=<same value as LEXICON_AI_TOKEN on the ecosystem backend>
 ```
 
