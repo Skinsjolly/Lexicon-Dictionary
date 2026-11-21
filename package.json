@@ -13,7 +13,7 @@
     "dev:web": "npm run dev --workspace @lexicon/web",
     "build": "npm run build --workspace @lexicon/web",
     "typecheck": "npm run typecheck --workspace @lexicon/web",
-    "test": "node --test apps/api/src/**/*.test.js",
+    "test": "node --test \"apps/api/src/**/*.test.js\"",
     "start": "npm run start --workspace @lexicon/api"
   },
   "devDependencies": {

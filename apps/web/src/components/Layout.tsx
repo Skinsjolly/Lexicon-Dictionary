@@ -11,7 +11,7 @@ export function Layout() {
       <footer className="border-t border-slate-200/70 py-8 dark:border-white/10">
         <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-3 px-4 text-xs text-slate-400 sm:flex-row sm:px-6">
           <p>© {new Date().getFullYear()} Lexicon. Built for curious minds.</p>
-          <p className="flex items-center gap-1.5">Definitions by Free Dictionary API <span>·</span> Made with <Heart size={11} className="fill-rose-400 text-rose-400" /></p>
+          <p className="flex items-center gap-1.5">Definitions by Free Dictionary API and Wiktionary <span>·</span> Made with <Heart size={11} className="fill-rose-400 text-rose-400" /></p>
         </div>
       </footer>
     </div>

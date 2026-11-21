@@ -6,7 +6,7 @@ Lexicon is a separate repository and web app from the Hearth ecosystem. It is li
 
 ## Features
 
-- Real dictionary data from the [Free Dictionary API](https://dictionaryapi.dev/)
+- Real dictionary data from the [Free Dictionary API](https://dictionaryapi.dev/), with [Wiktionary](https://en.wiktionary.org/) as an automatic fallback for newer or missing words
 - Provider abstraction so you can switch dictionary APIs later
 - Definitions grouped by part of speech, numbered, with traditional examples
 - Phonetics, audio pronunciation, syllables when available, and origin when available
@@ -25,7 +25,7 @@ Lexicon-Dictionary/
 │   ├── api/                 # Express backend
 │   │   └── src/
 │   │       ├── providers/
-│   │       │   ├── dictionary/  # FreeDictionaryProvider, CommercialDictionaryProvider
+│   │       │   ├── dictionary/  # FreeDictionaryProvider, CommercialDictionaryProvider, Wiktionary fallback
 │   │       │   └── ai/          # OpenAI, Anthropic, Gemini adapters
 │   │       ├── routes/          # /api/dictionary, /api/ai, ...
 │   │       ├── services/        # AI sentence generation + caching
@@ -78,6 +78,8 @@ Copy `.env.example` to `.env`.
 | `COMMERCIAL_DICTIONARY_LABEL` | `Commercial Dictionary` | Server-side provider label |
 | `COMMERCIAL_DICTIONARY_BASE_URL` | empty | Your commercial API endpoint |
 | `COMMERCIAL_DICTIONARY_API_KEY` | empty | Your commercial API key |
+
+When the primary provider has no entry, Lexicon automatically tries Wiktionary through the same proxy. Words found there report `provider: "wiktionary"` in the API response.
 
 ### AI sentences
 
