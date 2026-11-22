@@ -4,6 +4,21 @@ import { getAIProvider } from '../providers/ai/index.js';
 
 const stem = (word = '') => String(word).toLowerCase().replace(/[^a-z]/g, '').slice(0, 5);
 
+/** Dictionary entries nest definitions; AI providers expect one flat definition per meaning. */
+export function toAiMeaningRows(meanings = []) {
+  return meanings
+    .slice(0, 3)
+    .map((meaning) => {
+      const first = Array.isArray(meaning?.definitions) ? meaning.definitions[0] || {} : {};
+      return {
+        partOfSpeech: meaning?.partOfSpeech || null,
+        definition: String(meaning?.definition || first.definition || '').trim(),
+        example: String(meaning?.example || first.example || '').trim() || null,
+      };
+    })
+    .filter((row) => row.definition);
+}
+
 function cleanAndValidate(sentences, word, meanings) {
   const examples = meanings.map((m) => String(m.example || '').toLowerCase().trim()).filter(Boolean);
   const seen = new Set();
@@ -40,7 +55,7 @@ export async function generateAISentences({ word, meanings = [] }) {
   }
 
   const normalizedWord = String(word || '').trim().toLowerCase();
-  const rows = meanings.slice(0, 3);
+  const rows = toAiMeaningRows(meanings);
   if (!rows.length) {
     return {
       available: false,
