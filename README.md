@@ -75,11 +75,12 @@ Copy `.env.example` to `.env`.
 | `DICTIONARY_PROVIDER` | `free` | `free` or `commercial` |
 | `DICTIONARY_CACHE_TTL` | `86400000` | Dictionary cache lifetime in ms |
 | `DICTIONARY_PROXY_URL` | Cloudflare proxy URL | Optional proxy base URL override for hosts whose outbound IP is blocked by the upstream API |
+| `WIKTIONARY_BASE_URL` | `https://en.wiktionary.org` | Optional fallback dictionary base URL |
 | `COMMERCIAL_DICTIONARY_LABEL` | `Commercial Dictionary` | Server-side provider label |
 | `COMMERCIAL_DICTIONARY_BASE_URL` | empty | Your commercial API endpoint |
 | `COMMERCIAL_DICTIONARY_API_KEY` | empty | Your commercial API key |
 
-When the primary provider has no entry, Lexicon automatically tries Wiktionary through the same proxy. Words found there report `provider: "wiktionary"` in the API response.
+When the primary provider has no entry or is temporarily unreachable, Lexicon automatically tries Wiktionary. Words found there report `provider: "wiktionary"` in the API response.
 
 ### AI sentences
 

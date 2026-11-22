@@ -2,35 +2,37 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { WiktionaryDictionaryProvider } from './wiktionary.js';
 
+const extract = [
+  '== English ==',
+  '=== Pronunciation ===',
+  'IPA(key): /ɪnˌʃɪtɪfɪˈkeɪʃən/',
+  'Hyphenation: en‧shit‧i‧fi‧ca‧tion',
+  '=== Noun ===',
+  'The phenomenon of online platforms.',
+  'Synonyms: crapification, enshittening',
+  'Antonyms: deshittification',
+  '=== Etymology ===',
+  'From en + shit + -ification.',
+].join('\n');
+
 test('normalizes a Wiktionary fallback entry', async () => {
   const originalFetch = global.fetch;
-  global.fetch = async () => ({
+  global.fetch = async (url) => ({
     status: 200,
     ok: true,
-    json: async () => ({
-      definition: {
-        en: [
-          {
-            partOfSpeech: 'Noun',
-            definitions: [
-              { definition: '<style>.x{}</style><span>The phenomenon</span> of online platforms.' },
+    json: async () =>
+      String(url).includes('rest_v1')
+        ? {
+            en: [
+              {
+                partOfSpeech: 'Noun',
+                definitions: [
+                  { definition: '<style>.x{}</style><span>The phenomenon</span> of online platforms.' },
+                ],
+              },
             ],
-          },
-        ],
-      },
-      extract: [
-        '== English ==',
-        '=== Pronunciation ===',
-        'IPA(key): /ɪnˌʃɪtɪfɪˈkeɪʃən/',
-        'Hyphenation: en‧shit‧i‧fi‧ca‧tion',
-        '=== Noun ===',
-        'The phenomenon of online platforms.',
-        'Synonyms: crapification, enshittening',
-        'Antonyms: deshittification',
-        '=== Etymology ===',
-        'From en + shit + -ification.',
-      ].join('\n'),
-    }),
+          }
+        : { query: { pages: { 1: { extract } } } },
   });
 
   try {

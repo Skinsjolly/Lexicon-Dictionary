@@ -16,6 +16,7 @@ export const config = {
   dictionaryProvider: (process.env.DICTIONARY_PROVIDER || 'free').trim().toLowerCase(),
   dictionaryCacheTtl: numberFrom(process.env.CACHE_TTL_DICTIONARY_MS || process.env.DICTIONARY_CACHE_TTL, 24 * 60 * 60 * 1000),
   dictionaryProxyUrl: (process.env.DICTIONARY_PROXY_URL || 'https://lexicon-dictionary-proxy.dalaverisnicholas.workers.dev').replace(/\/$/, ''),
+  wiktionaryBaseUrl: (process.env.WIKTIONARY_BASE_URL || 'https://en.wiktionary.org').replace(/\/$/, ''),
   aiProvider: (process.env.AI_PROVIDER || '').trim().toLowerCase(),
   aiModel: (process.env.AI_MODEL || '').trim(),
   aiApiKey: (process.env.AI_API_KEY || '').trim(),

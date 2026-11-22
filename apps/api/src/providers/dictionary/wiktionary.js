@@ -7,6 +7,8 @@ const LICENSE = {
   url: 'https://creativecommons.org/licenses/by-sa/4.0/',
 };
 
+const USER_AGENT = 'Lexicon-Dictionary/1.0 (https://ecosystem-dictionary.pages.dev)';
+
 const ENTITIES = {
   '&nbsp;': ' ',
   '&amp;': '&',
@@ -82,33 +84,48 @@ export class WiktionaryDictionaryProvider {
   label = 'Wiktionary';
 
   async lookup(word) {
-    const base = config.dictionaryProxyUrl.replace(/\/$/, '');
-    const url = config.dictionaryProxyUrl
-      ? `${base}/api/wiktionary/${encodeURIComponent(word)}`
-      : `${base}/api/rest_v1/page/definition/${encodeURIComponent(word)}`;
+    const encoded = encodeURIComponent(word);
+    const definitionUrl = `${config.wiktionaryBaseUrl}/api/rest_v1/page/definition/${encoded}`;
+    const extractUrl = `${config.wiktionaryBaseUrl}/w/api.php?action=query&format=json&prop=extracts&explaintext=1&redirects=1&titles=${encoded}`;
 
-    let response;
+    let definitionResponse;
+    let extractResponse;
     try {
-      response = await fetch(url, {
-        headers: { Accept: 'application/json' },
-        signal: AbortSignal.timeout(15000),
-      });
+      [definitionResponse, extractResponse] = await Promise.all([
+        fetch(definitionUrl, {
+          headers: { Accept: 'application/json', 'User-Agent': USER_AGENT },
+          signal: AbortSignal.timeout(15000),
+        }),
+        fetch(extractUrl, {
+          headers: { Accept: 'application/json', 'User-Agent': USER_AGENT },
+          signal: AbortSignal.timeout(15000),
+        }).catch(() => null),
+      ]);
     } catch {
       throw new ProviderError('Could not reach the fallback dictionary. Please try again shortly.');
     }
 
-    if (response.status === 404) throw new WordNotFoundError(word);
-    if (!response.ok) throw new ProviderError(`Fallback dictionary returned ${response.status}.`);
+    if (definitionResponse.status === 404) throw new WordNotFoundError(word);
+    if (!definitionResponse.ok) throw new ProviderError(`Fallback dictionary returned ${definitionResponse.status}.`);
 
-    let payload;
+    let definitionPayload;
     try {
-      payload = await response.json();
+      definitionPayload = await definitionResponse.json();
     } catch {
       throw new ProviderError('Fallback dictionary returned an invalid response.');
     }
 
-    const definitionPayload = payload?.definition ?? payload;
-    const extract = typeof payload?.extract === 'string' ? payload.extract : '';
+    let extract = '';
+    if (extractResponse?.ok) {
+      try {
+        const payload = await extractResponse.json();
+        const page = Object.values(payload?.query?.pages || {})[0];
+        extract = typeof page?.extract === 'string' ? page.extract : '';
+      } catch {
+        extract = '';
+      }
+    }
+
     const groups = Array.isArray(definitionPayload?.en) ? definitionPayload.en : [];
 
     const meanings = groups
